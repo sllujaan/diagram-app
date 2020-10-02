@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="./index.js" defer async type="module"></script>
+
+    <title>Diagrams</title>
+
+<style>
+
+    body {
+        padding: 0;
+        margin: 0;
+        user-select: none;
+    }
+    .diagram > svg{
+        background-color: orange;
+        border: 1px dotted black;
+        
+    }
+    svg:hover{
+        cursor: all-scroll;
+    }
+
+    .paper {
+        background-color: rgba(140, 148, 156, 0.308);
+        width: 100%;
+        height: 400px;
+        position: relative;
+    }
+
+    .diagram {
+        position: absolute;
+        background-color: green;
+    }
+
+
+    .move-right {
+        position: absolute;
+        top: 30%;
+        right: -5px;
+    }
+
+    #move-right:hover {
+        cursor: ew-resize;
+    }
+
+
+</style>
+</head>
+<body>
+
+    <div class="paper">
+        
+
+            <div class="diagram">
+                <svg width="44" height="44" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <circle id="diagram" class="a b c" cx="22" cy="22" r="20" stroke="black" fill="transparent" stroke-width="2"/>
+                </svg>
+
+
+                <div class="move-right" >
+                    <svg width="10" height="10" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <circle id="move-right" class="a b c" cx="5" cy="5" r="3" fill="skyblue" stroke="skyblue" stroke-width="2"/>
+                    </svg>
+                </div>
+            </div>
+
+        
+
+    </div>
+
+
+
+</body>
+</html>
