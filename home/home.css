@@ -45,6 +45,9 @@ body{
     height: inherit;
     width: 100%;
 
+    background-color: darkmagenta;
+
+
 }
 
 .diagrams-container > .list > * {
@@ -52,6 +55,8 @@ body{
     background-color: cornflowerblue;
     width: 100%;
     height: 200px;
+    
+    border: 1px solid black;
 }
 
 
@@ -96,10 +101,18 @@ body{
         width: 100%;
     }
 
+    .diagrams-container > .list {
+        
+        overflow: auto;
+        white-space: nowrap;
+        text-align: center;
+    }
+
     .diagrams-container > .list > * {
         display: inline-block;
         height: 100%;
         width: 15%;
+
     }
 
 }
@@ -115,4 +128,20 @@ body{
         top: 21%;
         width: 800px;
     }
+
+    .diagrams-container > .list {
+        
+        overflow: auto;
+        white-space: nowrap;
+        text-align: center;
+        width: inherit;
+    }
+
+    .diagrams-container > .list > * {
+        display: inline-block;
+        height: 100%;
+        width: 120px;
+
+    }
+
 }

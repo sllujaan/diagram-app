@@ -43,7 +43,7 @@ import { _mouseDirection } from "./MouseDirections.js"
             
             if(e.target == circle) targetedDiagram = circle;
 
-            if(isMovingRight(e) && !canMoveDiagramRight() ) return;
+            //if(!canMoveDiagramRight(e) ) return;
 
             const _clientX = e.clientX - diffX;
             const _clientY = e.clientY - diffY;
@@ -51,9 +51,6 @@ import { _mouseDirection } from "./MouseDirections.js"
             diagram.style.setProperty("top", `${_clientY}px`);
         }
 
-
-
-        const direction = getMouseMoveDirection(e);
 
         if(_mouseDown_leftResize) handleIncreaseResizeLeft(e);
 
@@ -75,11 +72,8 @@ import { _mouseDirection } from "./MouseDirections.js"
 
         //if(e.target == diagram) console.log("target is daigram");
 
-        if(_mouseDirection.isMovingTop(e)) console.log("top");
-        if(_mouseDirection.isMovingDown(e)) console.log("down");
-        if(_mouseDirection.isMovingLeft(e)) console.log("left");
-        if(_mouseDirection.isMovingRight(e)) console.log("right");
-        
+        //console.log(_mouseDirection.getDirection_xAxis(e));
+        //console.log(_mouseDirection.getDirection_yAxis(e));
 
     })
 
@@ -91,6 +85,8 @@ import { _mouseDirection } from "./MouseDirections.js"
         diffY = 0;
 
         console.log(targetedDiagram);
+
+        restoreOverFloatedDiagram(diagram);
     })
 
     function getComputedProperty(element, property) {
@@ -136,82 +132,19 @@ import { _mouseDirection } from "./MouseDirections.js"
 
 
 
-    function getMouseMoveDirection(e) {
 
-        var direction = "";
+    function canMoveDiagramRight(e) {
 
-        if(oldX < e.clientX) {
-            direction = "right";
-            oldX = e.clientX - 1;
-        }
-        else {
-            oldX = e.clientX;
-        }
-
-        // else if (oldX > e.pageX) {
-        //     direction = "left";
-        // }
-
-        
-
-        return direction;
-    }
-
-    oldX = 0;
-    function isMovingRight(e) {
-        if(oldX < e.clientX) {
-            //direction = "right";
-            oldX = e.clientX - 1;
-            return true;
-        }
-        else {
-            oldX = e.clientX;
-            return false;
-        }
-    }
-
-    function isMovingLeft(e) {
-
-        if(e.clientX < oldX) {
-            oldX = e.clientX;
-            return true;
-        }
-        else {
-            oldX = e.clientX - 1;
-            return false;
-        }
-    }
-
-    oldY = 0;
-    function isMovingTop(e) {
-        if(oldY > e.clientY) {
-            //direction = "right";
-            oldY = e.clientY - 1;
-            return true;
-        }
-        else {
-            oldY = e.clientY;
-            return false;
-        }
-    }
-
-    function isMovingDown(e) {
-        if(oldY < e.clientY) {
-            //direction = "right";
-            oldY = e.clientY - 1;
-            return true;
-        }
-        else {
-            oldY = e.clientY;
-            return false;
-        }
-    }
-
-    function canMoveDiagramRight() {
         const paper_offsetRight = getOffsetRight(paper);
+        const paper_offsetBottom = getOffsetBottom(paper);
         const diagram_offsetRight = getOffsetRight(diagram);
+        const diagram_offsetBottom = getOffsetBottom(diagram);
 
-        if(diagram_offsetRight >= paper_offsetRight) return false;
+        if( (_mouseDirection.getDirection_yAxis(e) === "top") && (diagram.offsetTop < paper.offsetTop)) return false;
+        //if(diagram.offsetLeft < paper.offsetLeft) return false;
+
+        //if(diagram_offsetRight > paper_offsetRight) return false;
+        //if(diagram_offsetBottom > paper_offsetBottom) return false;
         
         return true;
         
@@ -263,7 +196,36 @@ import { _mouseDirection } from "./MouseDirections.js"
 
 
 
-    function canMoveDiagramLeft() {
+    function restoreOverFloatedDiagram(_diagram) {
+
+
+        const paper_offsetRight = getOffsetRight(paper);
+        const paper_offsetBottom = getOffsetBottom(paper);
+
+        //console.log(paper_offsetRight, paper_offsetBottom);
+
+        const diagram_offsetRight = getOffsetRight(_diagram);
+        const diagram_offsetBottom = getOffsetBottom(_diagram);
+        
+        //diagram is overfloating on to side
+        if(_diagram.offsetTop < paper.offsetTop) 
+        {
+            _diagram.style.setProperty("top", `${paper.offsetTop}px`);
+        }
+        else if( diagram_offsetBottom > paper_offsetBottom) {
+            const diagram_height = getElmentHeight(_diagram);
+            _diagram.style.setProperty("top", `${paper_offsetBottom - diagram_height}px`);
+        }
+
+
+        if(_diagram.offsetLeft < paper.offsetLeft) {
+            _diagram.style.setProperty("left", `${paper.offsetLeft}px`);
+        }
+        else if(diagram_offsetRight > paper_offsetRight) {
+            const diagram_width = getElmentWidth(_diagram);
+            _diagram.style.setProperty("left", `${paper_offsetRight - diagram_width}px`);
+        }
+
 
     }
 
