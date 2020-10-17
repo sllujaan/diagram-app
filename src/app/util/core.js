@@ -17,7 +17,7 @@ export function getSegmentsArr(path) {
 
 
 export function parseSegment(segment) {
-    var parsedItems_arr = []
+    var parsedItems_arr = [];
     var regEx = /(M|L)/i;
 
     var _segment = segment;
@@ -37,8 +37,26 @@ export function parseSegment(segment) {
 }
 
 export function handleDiagramMovements(e, _eventParams) {
-    console.log(_eventParams.startedClientX, _eventParams.startedClientY);
-    //console.log(e.clientX, e.clientY);
+    //console.log(_eventParams.startedClientX, _eventParams.startedClientY);
     path.setAttribute("transform", `translate(${e.clientX-_eventParams.startedClientX}, ${e.clientY-_eventParams.startedClientY})`);
 
+}
+
+export function handleDiagramNewPath(e, _eventParams) {
+    //const compStyles = window.getComputedStyle(path);
+    const regex = /(\d)+(\.\d+)?/i;
+    var transform = path.getAttribute("transform");
+    
+    const translateX = transform.match(regex);
+    transform = transform.replace(regex, "");
+    const translateY = transform.match(regex);
+
+    //console.log(parseFloat(translateX[0]), parseFloat(translateY[0]));
+    const segArr = getSegmentsArr(path.getAttribute("d"));
+    segArr.forEach(seg => {
+        console.log(seg);
+        var parsedArr = parseSegment(seg);
+        console.log(parsedArr);
+    })
+    console.log(segArr);
 }

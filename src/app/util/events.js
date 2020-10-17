@@ -1,5 +1,5 @@
 import { path } from './vars.js';
-import { handleDiagramMovements } from './core.js';
+import { handleDiagramMovements, handleDiagramNewPath } from './core.js';
 
 var diagramSelected = false;
 var diagramMoving = false;
@@ -11,6 +11,7 @@ document.addEventListener('mousedown', e => {
 })
 document.addEventListener('mouseup', e => {
     diagramSelected = false;
+    handleDiagramNewPath(e, _eventParams);
 })
 
 document.addEventListener('mousemove', e => {
