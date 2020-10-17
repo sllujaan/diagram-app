@@ -70,7 +70,15 @@ export function handleDiagramNewPath(e, _eventParams) {
     })
     console.log(segArr);
     console.log(newPathArr.join(" "));
-    path.setAttribute("d", newPathArr.join(" ") );
+
+    //for pop function is for testing pupose.
+    //newPathArr.pop();
+
+
     path.removeAttribute("transform");
+    if(segArr.length !== newPathArr.length) return;
+
+    path.setAttribute("d", newPathArr.join(" ") );
+    
 
 }
