@@ -52,11 +52,22 @@ export function handleDiagramNewPath(e, _eventParams) {
     const translateY = transform.match(regex);
 
     //console.log(parseFloat(translateX[0]), parseFloat(translateY[0]));
+    var newPathArr = [];
     const segArr = getSegmentsArr(path.getAttribute("d"));
     segArr.forEach(seg => {
-        console.log(seg);
+        //console.log(seg);
+        
         var parsedArr = parseSegment(seg);
-        console.log(parsedArr);
+        //if(parsedArr[0] === "M" || parsedArr[0] === "m") {
+            parsedArr[1] = parseFloat(translateX) + parseFloat(parsedArr[1]);
+            parsedArr[2] = parseFloat(translateY) + parseFloat(parsedArr[2]);
+        //}
+        //console.log(parsedArr);
+        newPathArr.push(parsedArr.join(" "));
     })
     console.log(segArr);
+    console.log(newPathArr.join(" "));
+    path.setAttribute("d", newPathArr.join(" ") );
+    path.removeAttribute("transform");
+
 }
