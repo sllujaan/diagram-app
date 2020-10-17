@@ -6,22 +6,37 @@
     <title>Sample</title>
 
 <style>
-ul {
-    
+
+    .diagrams-container {
+        background-color: orange;
+        overflow: auto;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+.item {
+    /* display: block; */
+    display: inline-block;
+    background-color: green;
+    padding: 10px;
+    text-align: center;
 }
-li {
-    display: inline;
+
+li:hover{
+    background-color: black;
+    color: white;
 }
 </style>
 </head>
 <body>
 
-    <ul>
-        <li>a</li>
-        <li>b</li>
-        <li>c</li>
-
-    </ul>
+    <div class="diagrams-container">
+        <div class="item">item 1</div>
+        <div class="item">item 1</div>
+        <div class="item">item 1</div>
+        <div class="item">item 1</div>
+    </div>
+    
     
 </body>
 </html>

@@ -37,10 +37,12 @@ import { _mouseDirection } from "./MouseDirections.js"
     })
 
     document.addEventListener('mousemove', e => {
+
+
         mouseMove = true;
 
         if(mouseDown) {
-            
+
             if(e.target == circle) targetedDiagram = circle;
 
             //if(!canMoveDiagramRight(e) ) return;
@@ -53,27 +55,6 @@ import { _mouseDirection } from "./MouseDirections.js"
 
 
         if(_mouseDown_leftResize) handleIncreaseResizeLeft(e);
-
-        // if(_mouseDown_leftResize && direction === "right") {
-        //     handleIncreaseResizeLeft(e);
-        // }
-        // else if(_mouseDown_leftResize && direction === "left") {
-        //     console.log('decrease it.');
-        //     handleDecreaseResizeLeft();
-        // }
-
-
-        //console.log(oldX, e.clientX);
-        //console.log(getMouseMoveDirection(e));
-        //if(isMovingRight(e)) console.log("right");
-        //if(isMovingTop(e)) console.log("Top");
-        //if(isMovingLeft(e)) console.log("Left");
-        //if(isMovingDown(e)) console.log("Down");
-
-        //if(e.target == diagram) console.log("target is daigram");
-
-        //console.log(_mouseDirection.getDirection_xAxis(e));
-        //console.log(_mouseDirection.getDirection_yAxis(e));
 
     })
 
@@ -110,7 +91,7 @@ import { _mouseDirection } from "./MouseDirections.js"
     }
 
     function handleResizeLeft(e, increment) {
-        const radius = parseFloat(circle.getAttribute("r"));
+        //const radius = parseFloat(circle.getAttribute("r"));
         var newRadius = '';
 
         newRadius = `` + generateNewRadiusOfCircle(e);
@@ -133,22 +114,7 @@ import { _mouseDirection } from "./MouseDirections.js"
 
 
 
-    function canMoveDiagramRight(e) {
-
-        const paper_offsetRight = getOffsetRight(paper);
-        const paper_offsetBottom = getOffsetBottom(paper);
-        const diagram_offsetRight = getOffsetRight(diagram);
-        const diagram_offsetBottom = getOffsetBottom(diagram);
-
-        if( (_mouseDirection.getDirection_yAxis(e) === "top") && (diagram.offsetTop < paper.offsetTop)) return false;
-        //if(diagram.offsetLeft < paper.offsetLeft) return false;
-
-        //if(diagram_offsetRight > paper_offsetRight) return false;
-        //if(diagram_offsetBottom > paper_offsetBottom) return false;
-        
-        return true;
-        
-    }
+    
 
 
     
@@ -160,7 +126,7 @@ import { _mouseDirection } from "./MouseDirections.js"
         
         console.log(e.clientX, newRadius);
 
-        if( (!newRadius || newRadius < 5) || !canResizeDiagram()) return parseFloat(circle.getAttribute("r"));
+        if( (!newRadius || newRadius < 5) ) return parseFloat(circle.getAttribute("r"));
         return newRadius;
     }
 
@@ -199,6 +165,10 @@ import { _mouseDirection } from "./MouseDirections.js"
     function restoreOverFloatedDiagram(_diagram) {
 
 
+
+        restoreOverSizedDiagram(_diagram);
+
+
         const paper_offsetRight = getOffsetRight(paper);
         const paper_offsetBottom = getOffsetBottom(paper);
 
@@ -230,6 +200,22 @@ import { _mouseDirection } from "./MouseDirections.js"
     }
 
 
+    function restoreOverSizedDiagram(_diagram) {
+        const _paper_width = getElmentWidth(paper);
+        const _paper_height = getElmentHeight(paper);
+        const _diagram_width = getElmentWidth(_diagram);
+        const _diagram_height = getElmentHeight(_diagram);
+
+        if(_diagram_width > _paper_width ) {
+            _diagram.style.setProperty("width", `${_paper_width - 20}px`);
+        }
+
+        if(_diagram_height > _paper_height) {
+            _diagram.style.setProperty("height", `${_paper_height - 20}px`);
+        }
+    }
+
+
 
 
 
@@ -245,3 +231,21 @@ import { _mouseDirection } from "./MouseDirections.js"
         if(_diagram_right + 10 < _paper_width) return true;
         return false;
     } */
+
+
+    // function canMoveDiagramRight(e) {
+
+    //     const paper_offsetRight = getOffsetRight(paper);
+    //     const paper_offsetBottom = getOffsetBottom(paper);
+    //     const diagram_offsetRight = getOffsetRight(diagram);
+    //     const diagram_offsetBottom = getOffsetBottom(diagram);
+
+    //     if( (_mouseDirection.getDirection_yAxis(e) === "top") && (diagram.offsetTop < paper.offsetTop)) return false;
+    //     //if(diagram.offsetLeft < paper.offsetLeft) return false;
+
+    //     //if(diagram_offsetRight > paper_offsetRight) return false;
+    //     //if(diagram_offsetBottom > paper_offsetBottom) return false;
+        
+    //     return true;
+        
+    // }

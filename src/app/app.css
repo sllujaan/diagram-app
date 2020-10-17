@@ -1,0 +1,10 @@
+svg {
+    border: 1px solid black;
+}
+path {
+
+}
+
+path:hover {
+    cursor: move;
+}
