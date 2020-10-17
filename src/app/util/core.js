@@ -44,12 +44,14 @@ export function handleDiagramMovements(e, _eventParams) {
 
 export function handleDiagramNewPath(e, _eventParams) {
     //const compStyles = window.getComputedStyle(path);
-    const regex = /(\d)+(\.\d+)?/i;
+    const regex = /\-?\+?(\d)+(\.\d+)?/i;
     var transform = path.getAttribute("transform");
     
     const translateX = transform.match(regex);
     transform = transform.replace(regex, "");
     const translateY = transform.match(regex);
+
+    console.log(translateX[0], translateY[0]);
 
     //console.log(parseFloat(translateX[0]), parseFloat(translateY[0]));
     var newPathArr = [];
@@ -59,6 +61,7 @@ export function handleDiagramNewPath(e, _eventParams) {
         
         var parsedArr = parseSegment(seg);
         //if(parsedArr[0] === "M" || parsedArr[0] === "m") {
+            //console.log(parseFloat(translateX), parseFloat(parsedArr[1]));
             parsedArr[1] = parseFloat(translateX) + parseFloat(parsedArr[1]);
             parsedArr[2] = parseFloat(translateY) + parseFloat(parsedArr[2]);
         //}
