@@ -2,7 +2,8 @@ import { path } from './vars.js';
 
 export function getSegmentsArr(path) {
     var segments_arr = [];
-    const regEx = /(M|L)((\r\n|\r|\n)+| |,)?(\d+((\.)(\d+))?)((\r\n|\r|\n)+| |,)+(\d+((\.)(\d+))?)/i
+    //const regEx = /(M|L)((\r\n|\r|\n)+| |,)?(\d+((\.)(\d+))?)((\r\n|\r|\n)+| |,)+(\d+((\.)(\d+))?)/i
+    const regEx = /(M|L)((\r\n|\r|\n)+| )?(\-?\+?)(\d+((\.)(\d+))?)((\r\n|\r|\n)+| |,)+(\-?\+?)(\d+((\.)(\d+))?)/i
     var _path = path;
 
     //operations
@@ -30,7 +31,8 @@ export function parseSegment(segment) {
         else parsedItems_arr.push(item[0]);
         
         _segment = _segment.replace(regEx, "");
-        regEx = /(\d+((\.)(\d+))?)/i
+        //regEx = /(\d+((\.)(\d+))?)/i
+        regEx = /(\-?\+?)(\d+((\.)(\d+))?)/i
         item = _segment.match(regEx);
     }
     return parsedItems_arr;
@@ -60,12 +62,10 @@ export function handleDiagramNewPath(e, _eventParams) {
         //console.log(seg);
         
         var parsedArr = parseSegment(seg);
-        //if(parsedArr[0] === "M" || parsedArr[0] === "m") {
-            //console.log(parseFloat(translateX), parseFloat(parsedArr[1]));
-            parsedArr[1] = parseFloat(translateX) + parseFloat(parsedArr[1]);
-            parsedArr[2] = parseFloat(translateY) + parseFloat(parsedArr[2]);
-        //}
-        //console.log(parsedArr);
+
+        parsedArr[1] = parseFloat(parsedArr[1]) + parseFloat(translateX);
+        parsedArr[2] = parseFloat(parsedArr[2]) + parseFloat(translateY);
+
         newPathArr.push(parsedArr.join(" "));
     })
     console.log(segArr);
@@ -76,9 +76,10 @@ export function handleDiagramNewPath(e, _eventParams) {
 
 
     path.removeAttribute("transform");
-    if(segArr.length !== newPathArr.length) return;
+    console.log(segArr.length, newPathArr.length);
+    if(segArr.length != newPathArr.length) {console.log("not equal"); return;}
 
-    path.setAttribute("d", newPathArr.join(" ") );
+    path.setAttribute("d", newPathArr.join(" ") + " Z" );
     
 
 }
