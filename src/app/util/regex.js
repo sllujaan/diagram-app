@@ -6,7 +6,6 @@ const getFirstData = (path) => {
     if(!match) return null;
 
     const dataName = match[0][match[0].length-1];
-    //console.log("first pass completed");
     return getPathData(path, dataName);
     //return firstDataArr;
 }
@@ -43,10 +42,9 @@ const getDataPoints_H_V = (path, dataName) => {
     const _match = path.match(regex);
     if(!_match) return null;
 
-    console.log(_match[0]);
     const _newPath = removeSegment(path, _match[0]);
 
-    const obj = {data: _match[0], newPath: _newPath}
+    const obj = {data: parseSegment(_match[0]), newPath: _newPath}
 
     return obj;
 }
@@ -61,7 +59,7 @@ const removeSegment = (path, segment) => {
 
 const parseSegment = (segment) => {
     var parsedItems_arr = [];
-    var regEx = /(M|L)/i;
+    var regEx = /(M|L|H|V)/i;
 
     var _segment = segment;
 
@@ -97,32 +95,32 @@ const getPathData = (path, dataName) => {
         case "l":
             return getDataPoints_M_L(path, dataName);
         case "h":
-            console.log("case h");
             return getDataPoints_H_V(path, dataName);
             //break;
         case "v":
             return getDataPoints_H_V(path, dataName);
             //break;
-        case "M":
-            
-            break;
-        case "M":
-            
-            break;
-        case "M":
-            
-            break;
-        case "M":
-            
-            break;
-        case "M":
-            
-            break;
+        case "c":
+            return [`{${dataName}} feature currently not available!`]
+            //break;
+        case "s":
+            return [`{${dataName}} feature currently not available!`]
+            //break;
+        case "q":
+            return [`{${dataName}} feature currently not available!`]
+            //break;
+        case "t":
+            return [`{${dataName}} feature currently not available!`]
+            //break;
+        case "a":
+            return [`{${dataName}} feature currently not available!`]
+            //break;
         case "z":
             return getDataPoints_Z(path, dataName);
             //break;  
     
         default:
-            break;
+            return [`unknown path data`];
+            //break;
     }
 }
