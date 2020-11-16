@@ -64,6 +64,7 @@ const parseSegment = (segment) => {
     var _segment = segment;
 
     var item = _segment.match(regEx);
+    console.log(item);
     while(item) {
         var digit = parseFloat(item[0]);
         
@@ -75,6 +76,32 @@ const parseSegment = (segment) => {
         regEx = /(\-?\+?)(\d+((\.)(\d+))?)/i
         item = _segment.match(regEx);
     }
+    return parsedItems_arr;
+}
+
+
+const parseSegmentEx = (segment, segLen) => {
+    const regExDigit = /(\-?\+?)(\d+((\.)(\d+))?)/i
+    var parsedItems_arr = [];
+   
+    var _segment = segment;
+    //push path data name to array as first element
+    parsedItems_arr.push(_segment[0]);
+    _segment = _segment.replace(_segment[0], "");
+
+
+    for (let i = 1; i <= segLen; i++) {
+        if(_segment === "") break;
+        const digit = _segment.match(regExDigit);
+        console.log(digit);
+        if(digit) {
+            parsedItems_arr.push(parseFloat(digit[0]));
+            _segment = _segment.replace(digit[0], "");
+            console.log(_segment);
+        }
+        
+    }
+
     return parsedItems_arr;
 }
 
