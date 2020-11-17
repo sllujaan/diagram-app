@@ -1,20 +1,23 @@
 
 
 const getFirstData = (path) => {
-    const regex = /(\ |\t|\r|\n)*[A-Za-z]/i;
+    const regex = /[A-Za-z]/i;
     const match = path.match(regex);
     if(!match) return null;
 
+    //console.log("first pass completed");
     const dataName = match[0][match[0].length-1];
     return getPathData(path, dataName);
     //return firstDataArr;
 }
 
+module.exports = {getFirstData}
 
 
 
-const getDataPoints_M_L = (path, dataName) => {
-    const regexStr = `${dataName}((\\r\\n|\\r|\\n)+| )?(\\-?\\+?)(\\d+((\\.)(\\d+))?)((\\r\\n|\\r|\\n)+| |,)+(\\-?\\+?)(\\d+((\.)(\\d+))?)`;
+
+const getDataPoints_M_L_T = (path, dataName) => {
+    const regexStr = `${dataName}((\\r\\n|\\r|\\n\\t)+| )?(\\-?\\+?)(\\d+((\\.)(\\d+))?)((\\r\\n|\\r|\\n\\t)+| |,)+(\\-?\\+?)(\\d+((\.)(\\d+))?)`;
     const regex = new RegExp(regexStr, "i");
     //const regex = /(M|L)((\r\n|\r|\n)+| )?(\-?\+?)(\d+((\.)(\d+))?)((\r\n|\r|\n)+| |,)+(\-?\+?)(\d+((\.)(\d+))?)/i;
     const _match = path.match(regex);
@@ -28,6 +31,24 @@ const getDataPoints_M_L = (path, dataName) => {
     return obj;
 
 }
+
+const getDataPoints_C = (path, dataName) => {
+
+}
+
+
+
+//----------------------------------------------------
+
+const getDataPoints = (path, dataName, len) => {
+    
+}
+
+
+//-------------------------------------------------------------
+
+
+
 
 const getDataPoints_Z = (path, dataName) => {
     const _newPath = removeSegment(path, dataName);
@@ -116,10 +137,10 @@ const getPathData = (path, dataName) => {
     
     switch (_data) {
         case "m":
-            return getDataPoints_M_L(path, dataName);
+            return getDataPoints_M_L_T(path, dataName);
             //break;
         case "l":
-            return getDataPoints_M_L(path, dataName);
+            return getDataPoints_M_L_T(path, dataName);
         case "h":
             return getDataPoints_H_V(path, dataName);
             //break;
@@ -127,19 +148,19 @@ const getPathData = (path, dataName) => {
             return getDataPoints_H_V(path, dataName);
             //break;
         case "c":
-            return [`{${dataName}} feature currently not available!`]
+            return [`{${dataName}} feature currently not available!`];
             //break;
         case "s":
-            return [`{${dataName}} feature currently not available!`]
+            return [`{${dataName}} feature currently not available!`];
             //break;
         case "q":
-            return [`{${dataName}} feature currently not available!`]
+            return [`{${dataName}} feature currently not available!`];
             //break;
         case "t":
-            return [`{${dataName}} feature currently not available!`]
+            return getDataPoints_M_L_T(path, dataName);
             //break;
         case "a":
-            return [`{${dataName}} feature currently not available!`]
+            return [`{${dataName}} feature currently not available!`];
             //break;
         case "z":
             return getDataPoints_Z(path, dataName);
@@ -150,3 +171,7 @@ const getPathData = (path, dataName) => {
             //break;
     }
 }
+
+
+// const path2 = "m\r\n\t20\r\n\t20 L10 10";
+// console.log(getFirstData(path2));
