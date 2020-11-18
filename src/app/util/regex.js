@@ -153,6 +153,13 @@ const getPathData = (path, dataName) => {
 
 
 
+const readPath = (path) => {
+    
+
+}
+
+
+
 const getFirstDataPoints = (path) => {
     if(!path) return null;
 
@@ -184,7 +191,6 @@ const getFirstDataPoints = (path) => {
 
 const parseDataPoints = (dataSegment) => {
     var _dataSegment = dataSegment;
-    var dataArr = [];
     const regEx = /[A-za-z]/i;
     const _match = regEx.exec(_dataSegment);
     const dataName = _match[0];
@@ -196,7 +202,7 @@ const parseDataPoints = (dataSegment) => {
     if(dataLen < 0) return [];
 
     // now read data points from the segment
-    dataArr = readDataPoints(dataSegment);
+    const dataArr = readDataPoints(dataSegment, dataLen);
 
     return dataArr;
 
@@ -204,19 +210,41 @@ const parseDataPoints = (dataSegment) => {
 }
 
 const readDataPoints = (segment, len) => {
+    var dataArr = [];
     var _segment = segment;
-    _segment = _segment.replace(/[A-za-z]/i, "");
+    //_segment = _segment.replace(/[A-za-z]/i, "");
     console.log(_segment);
 
-    //1. now find digit using regex
-    //2. replace that digit
-    //3. loop until next digit is found...
+    //1. push dataName in array.
+    //2. now find digit using regex.
+    //3. push that digit in array.
+    //4. replace that digit in the segment.
+    //5. go to step:2 until next digit is found...
+    //6. validate array with length.
+
+    //1. push dataName in array.
+    dataArr.push(_segment[0]);
 
 
-    //1. now find digit using regex
-    //const digitFound = _segment.match(//i)
+    //2. now find digit using regex.
+    const digitRegex = /(\d+((\.)(\d+))?)/i
+    var digitFound = parseFloat(_segment.match(digitRegex));
 
-    return [];
+    console.log(digitFound);
+
+    while ((digitFound) && (dataArr.length <= len)) {
+        //3. push that digit in array.
+        dataArr.push(digitFound);
+        //4. replace that digit in the segment.
+        _segment = _segment.replace(digitFound.toString(), "");
+
+        //5. go to step:2 until next digit is found...
+        digitFound = parseFloat(_segment.match(digitRegex));
+    }
+
+    //6. validate array with length.
+    if(dataArr.length != len+1) { console.error(`invalid data points [${dataArr.join(" ")}]`); return [];}
+    return dataArr;
 }
 
 const getDataPointsLength = (dataName) => {
@@ -252,7 +280,9 @@ const getDataPointsLength = (dataName) => {
             return 0; 
     
         default:
-            console.error(`invalid data Point: [${_dataName}]`);
+            console.error(`invalid data Name: [${_dataName}]`);
             return -1;
     }
 }
+
+
