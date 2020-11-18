@@ -153,7 +153,9 @@ const getPathData = (path, dataName) => {
 
 
 
-const getFirstDataPoints = (path, dataName, len) => {
+const getFirstDataPoints = (path) => {
+    if(!path) return null;
+
     var _path = path;
     var match1Index = 0;
     var match2Index = 0;
@@ -163,19 +165,17 @@ const getFirstDataPoints = (path, dataName, len) => {
     if(!match1) return null;
 
     match1Index = match1.index;
-    //console.log(match1[0], match1Index);
     _path = _path.replace(match1[0], "");
 
     const match2 = regEx.exec(_path);
     match2Index = (match2) ? (match2.index) : (_path.length);
-    //console.log(_path);
-    //console.log(_path[match2Index-1], match2Index);
 
-    const finalStr = match1[0] + _path.substring(match1Index, match2Index);
-    //console.log(finalStr);
-    //return _path;
-    return finalStr;
+    const remainedSubStr = _path.substring(match1Index, match2Index);
+    const finalStr = match1[0] + remainedSubStr;
 
+    console.log(_path);
+    const _newPath = _path.replace(remainedSubStr, "");
 
+    return {data: finalStr, newPath: _newPath};
 
 }
