@@ -176,6 +176,83 @@ const getFirstDataPoints = (path) => {
     console.log(_path);
     const _newPath = _path.replace(remainedSubStr, "");
 
-    return {data: finalStr, newPath: _newPath};
+    const _dataArr = parseDataPoints(finalStr);
 
+    return {data: _dataArr, newPath: _newPath};
+
+}
+
+const parseDataPoints = (dataSegment) => {
+    var _dataSegment = dataSegment;
+    var dataArr = [];
+    const regEx = /[A-za-z]/i;
+    const _match = regEx.exec(_dataSegment);
+    const dataName = _match[0];
+
+    console.log(dataName);
+    //get data points length--
+    const dataLen = getDataPointsLength(dataName);
+
+    if(dataLen < 0) return [];
+
+    // now read data points from the segment
+    dataArr = readDataPoints(dataSegment);
+
+    return dataArr;
+
+
+}
+
+const readDataPoints = (segment, len) => {
+    var _segment = segment;
+    _segment = _segment.replace(/[A-za-z]/i, "");
+    console.log(_segment);
+
+    //1. now find digit using regex
+    //2. replace that digit
+    //3. loop until next digit is found...
+
+
+    //1. now find digit using regex
+    //const digitFound = _segment.match(//i)
+
+    return [];
+}
+
+const getDataPointsLength = (dataName) => {
+    const _dataName = dataName.toLowerCase();
+    switch (_dataName) {
+        case "m":
+            return 2;
+            //break;
+        case "l":
+            return 2;
+        case "h":
+            return 1;
+            //break;
+        case "v":
+            return 1;
+            //break;
+        case "c":
+            return 6;
+            //break;
+        case "s":
+            return 4;
+            //break;
+        case "q":
+            return 2;
+            //break;
+        case "t":
+            return 2;
+            //break;
+        case "a":
+            return 7;
+            //break;
+        case "z":
+            return 0; 
+    
+        default:
+            console.error(`invalid data Point: [${_dataName}]`);
+            return -1;
+    }
 }
