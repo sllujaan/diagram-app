@@ -154,7 +154,35 @@ const getPathData = (path, dataName) => {
 
 
 const readPath = (path) => {
+    const dataStack = [];
+    var _path = path;
+
+    //1. read first data points.
+    //2. push in the array.
+    //3. remove data segment from the path.
+    //4. repeat until data points are found.
+
     
+    //1. read first data points.
+    var firstData = getFirstDataPoints(_path);
+    
+    //const MAX_LOOP = 10;
+    //var count = 0;// && count <= MAX_LOOP
+
+    while (firstData) {
+        //count++;
+        //console.log("while");
+        //2. push in the array.
+        dataStack.push(firstData.data);
+        //3. remove data segment from the path.
+        console.log(firstData.dataSegment);
+        _path = _path.replace(firstData.dataSegment, "");
+        //4. repeat until data points are found.
+        firstData = getFirstDataPoints(_path);
+    }
+
+    return dataStack;
+
 
 }
 
@@ -178,14 +206,14 @@ const getFirstDataPoints = (path) => {
     match2Index = (match2) ? (match2.index) : (_path.length);
 
     const remainedSubStr = _path.substring(match1Index, match2Index);
-    const finalStr = match1[0] + remainedSubStr;
+    const _dataSegment = match1[0] + remainedSubStr;
 
     console.log(_path);
     const _newPath = _path.replace(remainedSubStr, "");
 
-    const _dataArr = parseDataPoints(finalStr);
+    const _dataArr = parseDataPoints(_dataSegment);
 
-    return {data: _dataArr, newPath: _newPath};
+    return {data: _dataArr, dataSegment: _dataSegment, newPath: _newPath};
 
 }
 
