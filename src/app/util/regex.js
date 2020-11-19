@@ -229,6 +229,7 @@ const parseDataPoints = (dataSegment) => {
 
     if(dataLen < 0) return [];
 
+    console.warn("reading data points...");
     // now read data points from the segment
     const dataArr = readDataPoints(dataSegment, dataLen);
 
@@ -255,12 +256,14 @@ const readDataPoints = (segment, len) => {
 
 
     //2. now find digit using regex.
-    const digitRegex = /(\d+((\.)(\d+))?)/i
+    const digitRegex = /(\-?\+?)(\d+((\.)(\d+))?)/i
     var digitFound = parseFloat(_segment.match(digitRegex));
-
+    var isDigit = (digitFound || digitFound === 0 || digitFound === -0) ? (true) : (false);
     console.log(digitFound);
 
-    while ((digitFound) && (dataArr.length <= len)) {
+    
+
+    while ((isDigit) && (dataArr.length <= len)) {
         //3. push that digit in array.
         dataArr.push(digitFound);
         //4. replace that digit in the segment.
@@ -268,6 +271,7 @@ const readDataPoints = (segment, len) => {
 
         //5. go to step:2 until next digit is found...
         digitFound = parseFloat(_segment.match(digitRegex));
+        isDigit = (digitFound || digitFound === 0 || digitFound === -0) ? (true) : (false);
     }
 
     //6. validate array with length.
