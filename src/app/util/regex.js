@@ -275,7 +275,7 @@ const readDataPoints = (segment, len) => {
     }
 
     //6. validate array with length.
-    if(dataArr.length != len+1) { console.error(`invalid data points [${dataArr.join(" ")}]`); return [];}
+    if(dataArr.length != len+1) { console.error(`invalid data points [${dataArr.join(" ")}]`); return generateValidData(dataArr, len);}
     return dataArr;
 }
 
@@ -315,6 +315,25 @@ const getDataPointsLength = (dataName) => {
             console.error(`invalid data Name: [${_dataName}]`);
             return -1;
     }
+}
+
+
+const generateValidData = (dataArr, len) => {
+    for (let i = dataArr.length; i <= len; i++) {
+        dataArr[i] = 0;
+    }
+
+    if(dataArr.length != len+1) {
+        //remove all elements from the array except firt.
+        //make sure that array has only one element that is a letter [i.e. dataName].
+        dataArr.splice(1);
+        
+        console.log("final....");
+        for (let i = 1; i <= len; i++) {
+            dataArr[i] = 0;
+        }
+    }
+    return dataArr;
 }
 
 
