@@ -1,8 +1,7 @@
 import { parseSegment, getSegmentsArr } from './util/core.js';
 import { path } from './util/vars.js';
 import {  } from './util/events.js';
-
-
+import {  } from './diagUtil.js';
 
 
 console.log(path);

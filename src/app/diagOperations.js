@@ -1,6 +1,7 @@
 
 
-const readPath = (path) => {
+
+export const readPath = (path) => {
     const dataStack = [];
     var _path = path;
 
