@@ -42,9 +42,10 @@ setTimeout(() => {
  * @param {array} segments 
  */
 const groupSegments = (segments) => {
-    var groupedSegs = [[["M", 10, 10], ["L", 10, 30], ["z"]], ];
+    var groupedSegs = [[["M", 10, 10], ["L", 10, 30], ["z"]], ["M", 10, 10] ["z"]];
     var tempArr = [["M", 10, 10] ["z"]];
 
+    //===============Alogrithm to groups segments==================
     //1. find segment that has "M" or "m" data name.
     //2. push that segment in tempArr.
     //3. if segment's dataName is other than "m" or "M" push that segment in tempArr also;
@@ -53,10 +54,40 @@ const groupSegments = (segments) => {
     //6. got to step:1 and repeat the process until segments are found.
     //7. lastly check if tempArr is not empty then push this array to groupedSegs array.
     //8. return the groupedSegs array.
+    //=============================================================
 
     segments.forEach(_segment => {
-        console.log(_segment);
+        //1. find segment that has "M" or "m" data name.
+        if(_segment[0].toLowerCase() == 'm') {
+
+            //4. if next segment found is "m" or "M" then push tempArr to groupedSegs array.
+            if(tempArr.length > 0) {
+                groupedSegs.push(tempArr);
+                //5. reset tempArr.
+                tempArr = [];
+            }
+
+            //2. push that segment in tempArr.
+            tempArr.push(_segment);
+        }
+        else {
+            //3. if segment's dataName is other than "m" or "M" push that segment in tempArr also;
+            tempArr.push(_segment);
+        }
+        //console.log(_segment);
+        //6. got to step:1 and repeat the process until segments are found.
     });
+
+    //7. lastly check if tempArr is not empty then push this array to groupedSegs array.
+    if(tempArr.length > 0) {
+        groupedSegs.push(tempArr);
+        //5. reset tempArr.
+        tempArr = [];
+    }
+
+    //8. return the groupedSegs array.
+    return groupedSegs;
+
 }
 
 groupSegments(_path_segs);
