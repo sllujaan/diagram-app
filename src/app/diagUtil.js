@@ -15,7 +15,20 @@ const scaleX = 2;
 const scaleY = 2;
 
 
-const generateNewSegs = () => {
+const generateNewSegs = (segments, scaleX, scaleY) => {
+    var newPathArr = [];
+    //===============Alogrithm to generate new path=========================
+    //1. get grouped segments.
+    //2. create json object that contains: 
+            // i. first segments copy of the group that contains "m" data.
+            //ii. second is full original segments array.
+    //3. generate new segments with scaleX and scaleY.
+    //4. check the difference between new m values and new m values.
+    //5. subtract that values from all segments.
+    //6. lastly push all segments to newPathArr.
+    //7. join newPathArr to string.
+    //8. return that string which is the new generated path.
+    //======================================================================
 
 }
 
@@ -38,7 +51,7 @@ setTimeout(() => {
 
 
 /**
- * groups segments such that ech group's first segment has "m" or "M" data name.
+ * groups segments such that each group's first segment has "m" or "M" data name.
  * @param {array} segments 
  */
 const groupSegments = (segments) => {
