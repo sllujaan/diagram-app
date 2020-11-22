@@ -15,22 +15,7 @@ const scaleX = 2;
 const scaleY = 2;
 
 
-const generateNewSegs = (segments, scaleX, scaleY) => {
-    var newPathArr = [];
-    //===============Alogrithm to generate new path=========================
-    //1. get grouped segments.
-    //2. create json object that contains: 
-            // i. first segments copy of the group that contains "m" data.
-            //ii. second is full original segments array.
-    //3. generate new segments with scaleX and scaleY.
-    //4. check the difference between new m values and new m values.
-    //5. subtract that values from all segments.
-    //6. lastly push all segments to newPathArr.
-    //7. join newPathArr to string.
-    //8. return that string which is the new generated path.
-    //======================================================================
 
-}
 
 
 const oldPath = `M 10 10 L 10 30 L 30 30 L 30 10 L 10 10 Z`;
@@ -104,3 +89,55 @@ const groupSegments = (segments) => {
 }
 
 groupSegments(_path_segs);
+
+
+
+
+
+
+const generateNewSegs = (segments, scaleX, scaleY) => {
+    var newPathArr = [];
+    var tempArr = [];
+    //===============Alogrithm to generate new path=========================
+    //1. get grouped segments.
+    //2. create json object that contains: 
+            // i. first segments copy of the group that contains "m" data.
+            //ii. second is full original segments array.
+    //3. push that object in tempArr.
+    //4. get each group from temp Array and generate new segments with scaleX and scaleY.
+    //5. check the difference between new m values and new m values.
+    //6. subtract that values from all segments.
+    //7. lastly push all segments to newPathArr.
+    //8. join newPathArr to string.
+    //9. return that string which is the new generated path.
+    //======================================================================
+
+    //1. get grouped segments.
+    const groupedSegs = groupSegments(segments);
+    //2. create json object that contains: 
+            // i. first segments copy of the group that contains "m" data.
+            //ii. second is full original segments array.
+    groupedSegs.forEach(_group => {
+        const dataObj = {
+            mData: _group[0],
+            originalGroup: _group
+        }
+
+        tempArr.push(dataObj);
+    });
+
+    console.log(tempArr);
+
+    //4. get each group from temp Array and generate new segments with scaleX and scaleY.
+    tempArr.forEach(dataObj => {
+        dataObj.originalGroup.forEach(_segment => {
+            console.log(_segment);
+        })
+        console.log("================================");
+    });
+
+
+
+}
+
+generateNewSegs(_path_segs, 2, 2);
