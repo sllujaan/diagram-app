@@ -1,41 +1,3 @@
-import { readPath } from './diagOperations.js';
-import { path } from './util/vars.js';
-
-//first get d attribute from dom path element.
-const _path_attr = path.getAttribute("d");
-//now read path segments from the d attribute.
-const _path_segs = readPath(_path_attr); 
-
-
-
-console.log(_path_segs);
-
-
-const scaleX = 2;
-const scaleY = 2;
-
-
-const generateNewSegs = () => {
-
-}
-
-
-const oldPath = `M 10 10 L 10 30 L 30 30 L 30 10 L 10 10 Z`;
-//const newPath = `M 20 20 L 20 60 L 60 60 L 60 20 L 20 20 Z`;
-const newPath = `M 10 10 L 10 50 L 50 50 L 50 10 L 10 10 Z`;
-
-const linePath = `M 10 10 L 20 10 M 20 20 L 30 20`;
-const newlinePath = `M 10 10 L 30 10 M 20 20 L 40 20`;
-
-setTimeout(() => {
-    path.setAttribute("d", linePath);
-}, 1000);
-
-setTimeout(() => {
-    path.setAttribute("d", newlinePath);
-}, 2000);
-
-
 
 /**
  * groups segments such that ech group's first segment has "m" or "M" data name.
@@ -58,7 +20,7 @@ const groupSegments = (segments) => {
 
     segments.forEach(_segment => {
         //1. find segment that has "M" or "m" data name.
-        if(_segment[0].toLowerCase() == 'm') {
+        if(_segment[0].toLowerCase() === 'm') {
 
             //4. if next segment found is "m" or "M" then push tempArr to groupedSegs array.
             if(tempArr.length > 0) {
@@ -90,4 +52,5 @@ const groupSegments = (segments) => {
 
 }
 
-groupSegments(_path_segs);
+
+module.exports = {groupSegments};

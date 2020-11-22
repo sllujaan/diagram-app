@@ -33,8 +33,8 @@ test(`(m10,10) is first valid data in path ${path4}`, () => {
 })
 
 const path5 = "m10 L10 10";
-test(`(m10) is first valid data in path ${path5}`, () => {
-    expect(regex.getFirstData(path5)).toBeNull();
+test(`(m 10 0) is first valid data in path ${path5}`, () => {
+    expect(regex.getFirstData(path5).data).toEqual(["m", 10, 0]);
 })
 
 const path6 = "H10 L10 10";
@@ -73,12 +73,152 @@ test(`(T10,10) is first valid data in path (${path12})`, () => {
 })
 
 
+const path13 = "z";
+test(`(z) is first valid data in path (${path13})`, () => {
+    expect(regex.getFirstData(path13).data).toEqual(["z"]);
+})
+
+//new test case--------------------------
+const path13_1 = "Z";
+const validData13_1 = ["Z"];
+test(`[${validData13_1.join(" ")}] is first valid data in path [${path13_1}]`, () => {
+    expect(regex.getFirstData(path13_1).data).toEqual(validData13_1);
+})
+//-------------------------------
+
+//new test case--------------------------
+const path14 = "A 10 10 10 10 10 10 10";
+const validData14 = ["A", 10, 10, 10, 10, 10, 10, 10];
+test(`[${validData14.join(" ")}] is first valid data in path [${path14}]`, () => {
+    expect(regex.getFirstData(path14).data).toEqual(validData14);
+})
+//-------------------------------
+
+const test12 = () => {
+    //new test case--------------------------
+    var _path = "a 1 2 3 4 5 6 7";
+    var validData = ["a", 1, 2, 3, 4, 5, 6, 7];
+    test(`[${validData.join(" ")}] is first valid data in path [${_path}]`, () => {
+        expect(regex.getFirstData(_path).data).toEqual(validData);
+    })
+    //-------------------------------
+}
+test12();
+
+//new test case--------------------------
+var _path = "a 10 20 30 40 50 60 70";
+var expectedValue = ["a", 10, 20, 30, 40, 50, 60, 70];
+test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+    expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+})
+//-------------------------------
+
+//new test case--------------------------
+var _path = "C 10 20 30 40 50 60";
+var expectedValue = ["C", 10, 20, 30, 40, 50, 60];
+test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+    expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+})
+//-------------------------------
+
+//new test case--------------------------
+var _path = "c 10 20 30 40 50 60";
+var expectedValue = ["c", 10, 20, 30, 40, 50, 60];
+test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+    expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+})
+//-------------------------------
+
+{
+    //new test case--------------------------
+    var _path = "c 10 20 30 40";
+    var expectedValue = ["c", 0, 0, 0, 0, 0, 0];
+    test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+        expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+    })
+    //-------------------------------
+}
+
+{
+    //new test case--------------------------
+    var _path = "c 10 20 30 40";
+    var expectedValue = ["c", 0, 0, 0, 0, 0, 0];
+    test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+        expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+    })
+    //-------------------------------
+}
+
+
+//new test case--------------------------
+var _path = "S 10 20 30 40";
+var expectedValue = ["S", 10, 20, 30, 40];
+test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+    expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+})
+//-------------------------------
+
+{
+    //new test case--------------------------
+    var _path = "s 10,20,30,40";
+    var expectedValue = ["s", 10, 20, 30, 40];
+    test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+        expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+    })
+    //-------------------------------
+}
+{//new test case--------------------------
+    var _path = "s 10.1,20.2,30.3,40.4";
+    var expectedValue = ["s", 10.1, 20.2, 30.3, 40.4];
+    test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+        expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+    })
+    //-------------------------------
+}
+{
+    //new test case--------------------------
+    var _path = "s 10,20,30";
+    var expectedValue = ["s", 10, 20, 30, 0];
+    test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+        expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+    })
+    //-------------------------------
+}
+// const test1 = () => {
+//     //new test case--------------------------
+//     var _path = "s 10,20,30";
+//     var expectedValue = ["s", 10, 20, 30, 0];
+//     test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+//         expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+//     })
+//     //-------------------------------
+// }
+
+// test1();
 
 
 
+const test3 = () => {
+     //new test case--------------------------
+     var _path = "z 10 10";
+     var expectedValue = ["z"];
+     test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+         expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+     })
+     //-------------------------------
+};
+test3();
 
-
-
+const test4 = () => {
+    //new test case--------------------------
+    var _path = "m";
+    var expectedValue = ["m", 0, 0];
+    test(`[${expectedValue.join(" ")}] is first valid data in path [${_path}]`, () => {
+        expect(regex.getFirstData(_path).data).toEqual(expectedValue);
+    })
+    //-------------------------------
+};
+test4();
 
 
 
