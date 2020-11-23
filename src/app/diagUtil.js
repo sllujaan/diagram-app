@@ -146,7 +146,7 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
     console.log(tempArr);
 
     //4. get each group from temp Array and generate new segments with scaleX and scaleY.
-    tempArr.forEach(dataObj => {
+    tempArr.forEach((dataObj, tempArrIndex) => {
         dataObj.originalGroup.forEach(_segment => {
             //5. check the difference between new m values and new m values.
             //6. subtract that values from all segments.
@@ -155,13 +155,12 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
                 //if loop index is odd it is X point otherwise it is Y point.
                 if(isOdd(i)){
                     //it is the X point block. now generate new values with scaleX
-                    _segment[i] = (_segment[i] * scaleX);
+                    _segment[i] = (_segment[i] * scaleX) - tempArr[tempArrIndex].diffX;
                 }
                 else {
                     //it is the Y point block. now generate new values with scaleY
-                    _segment[i] = (_segment[i] * scaleY);
+                    _segment[i] = (_segment[i] * scaleY) - tempArr[tempArrIndex].diffY;
                 }
-                //_segment[i] = _segment[i] * scal
                 
             }
 
@@ -169,6 +168,8 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
         })
         console.log("================================");
     });
+
+    console.log(tempArr);
 
 
 
