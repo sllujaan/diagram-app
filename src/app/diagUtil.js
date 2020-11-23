@@ -101,7 +101,9 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
     //===============Alogrithm to generate new path=========================
     //1. get grouped segments.
     //2. create json object that contains: 
-            // i. first segments copy of the group that contains "m" data.
+            //  i. first segments copy of the group that contains "m" data.
+            // ii. difference X
+            // iv. difference Y
             //ii. second is full original segments array.
     //3. push that object in tempArr.
     //4. get each group from temp Array and generate new segments with scaleX and scaleY.
@@ -112,17 +114,27 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
     //9. return that string which is the new generated path.
     //======================================================================
 
+
+
+
     //1. get grouped segments.
     const groupedSegs = groupSegments(segments);
     //2. create json object that contains: 
-            // i. first segments copy of the group that contains "m" data.
+            //  i. first segments copy of the group that contains "m" data.
+            // ii. difference X
+            // iv. difference Y
             //ii. second is full original segments array.
+
     groupedSegs.forEach(_group => {
+
         const dataObj = {
-            mData: _group[0],
+            mData: _group[0],   //make sure that _group[0] has only m data points
+            diffX: (_group[0][1] * scaleX) - _group[0][1],
+            diffY: (_group[0][2] * scaleY) - _group[0][2],
             originalGroup: _group
         }
 
+        //3. push that object in tempArr.
         tempArr.push(dataObj);
     });
 
@@ -132,6 +144,12 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
     tempArr.forEach(dataObj => {
         dataObj.originalGroup.forEach(_segment => {
             console.log(_segment);
+            //5. check the difference between new m values and new m values.
+            //6. subtract that values from all segments.
+            for (let i = 1; i < _segment.length; i++) {
+                //_segment[i] = _segment[i] * scal
+                
+            }
         })
         console.log("================================");
     });
