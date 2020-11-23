@@ -16,6 +16,11 @@ const scaleY = 2;
 
 
 
+const isOdd = (n) => {
+    return Math.abs(n % 2) == 1;
+}
+
+
 
 
 const oldPath = `M 10 10 L 10 30 L 30 30 L 30 10 L 10 10 Z`;
@@ -143,13 +148,24 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
     //4. get each group from temp Array and generate new segments with scaleX and scaleY.
     tempArr.forEach(dataObj => {
         dataObj.originalGroup.forEach(_segment => {
-            console.log(_segment);
             //5. check the difference between new m values and new m values.
             //6. subtract that values from all segments.
             for (let i = 1; i < _segment.length; i++) {
+
+                //if loop index is odd it is X point otherwise it is Y point.
+                if(isOdd(i)){
+                    //it is the X point block. now generate new values with scaleX
+                    _segment[i] = (_segment[i] * scaleX);
+                }
+                else {
+                    //it is the Y point block. now generate new values with scaleY
+                    _segment[i] = (_segment[i] * scaleY);
+                }
                 //_segment[i] = _segment[i] * scal
                 
             }
+
+            console.log(_segment);
         })
         console.log("================================");
     });
