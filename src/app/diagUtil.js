@@ -23,21 +23,6 @@ const isOdd = (n) => {
 
 
 
-const oldPath = `M 10 10 L 10 30 L 30 30 L 30 10 L 10 10 Z`;
-//const newPath = `M 20 20 L 20 60 L 60 60 L 60 20 L 20 20 Z`;
-const newPath = `M 10 10 L 10 50 L 50 50 L 50 10 L 10 10 Z`;
-
-const linePath = `M 10 10 L 20 10 M 20 20 L 30 20`;
-const newlinePath = `M 10 10 L 30 10 M 20 20 L 40 20`;
-
-setTimeout(() => {
-    path.setAttribute("d", linePath);
-}, 1000);
-
-setTimeout(() => {
-    path.setAttribute("d", newlinePath);
-}, 2000);
-
 
 
 /**
@@ -102,6 +87,7 @@ groupSegments(_path_segs);
 
 const generateNewSegs = (segments, scaleX, scaleY) => {
     var newPathArr = [];
+    var newPathStr = "";
     var tempArr = [];
     //===============Alogrithm to generate new path=========================
     //1. get grouped segments.
@@ -115,7 +101,7 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
     //5. check the difference between new m values and new m values.
     //6. subtract that values from all segments.
     //7. lastly push all segments to newPathArr.
-    //8. join newPathArr to string.
+    //8. join newPathArr to newPathStr string.
     //9. return that string which is the new generated path.
     //======================================================================
 
@@ -164,15 +150,45 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
                 
             }
 
+            //7. lastly push all segments to newPathArr.
+            newPathArr.push(_segment);
             console.log(_segment);
         })
         console.log("================================");
     });
 
-    console.log(tempArr);
+    //8. join newPathArr to string.
+    newPathStr = newPathArr.join(" ");
+    //replace commas with space from the newPathStr if axisted any.
+    newPathStr = newPathStr.replace(/,/gi, " ");
+
+    console.log(newPathStr);
+    //9. return that string which is the new generated path.
+    return newPathStr;
+    
 
 
 
 }
 
-generateNewSegs(_path_segs, 2, 2);
+generateNewSegs(_path_segs, 0.5, 0.5);
+
+
+
+
+
+const oldPath = `M 10 10 L 10 30 L 30 30 L 30 10 L 10 10 Z`;
+//const newPath = `M 20 20 L 20 60 L 60 60 L 60 20 L 20 20 Z`;
+const newPath = `M 10 10 L 10 50 L 50 50 L 50 10 L 10 10 Z`;
+
+const linePath = `M 10 10 L 30 10 L 30 30 L 10 30 L 10 10 Z`;
+const linePathSegs = readPath(linePath);
+const newlinePath =  generateNewSegs(linePathSegs, 1.5, 1.5); //`M 10 10 L 30 10 M 20 20 L 40 20`;
+
+setTimeout(() => {
+    path.setAttribute("d", linePath);
+}, 1000);
+
+setTimeout(() => {
+    path.setAttribute("d", newlinePath);
+}, 2000);
