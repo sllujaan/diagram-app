@@ -120,11 +120,11 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
 
         const dataObj = {
             mData: _group[0],   //make sure that _group[0] has only m data points
-            diffX: (_group[0][1] * scaleX) - _group[0][1],
-            diffY: (_group[0][2] * scaleY) - _group[0][2],
+            diffX: ((_group[0][1] * scaleX) - (_group[0][1])),
+            diffY: ((_group[0][2] * scaleY) - (_group[0][2])),
             originalGroup: _group
         }
-
+        console.log(dataObj);
         //3. push that object in tempArr.
         tempArr.push(dataObj);
     });
@@ -171,7 +171,7 @@ const generateNewSegs = (segments, scaleX, scaleY) => {
 
 }
 
-generateNewSegs(_path_segs, 0.5, 0.5);
+generateNewSegs(_path_segs, 3, 3);
 
 
 
@@ -183,7 +183,7 @@ const newPath = `M 10 10 L 10 50 L 50 50 L 50 10 L 10 10 Z`;
 
 const linePath = `M 10 10 L 30 10 L 30 30 L 10 30 L 10 10 Z`;
 const linePathSegs = readPath(linePath);
-const newlinePath =  generateNewSegs(linePathSegs, 1.5, 1.5); //`M 10 10 L 30 10 M 20 20 L 40 20`;
+const newlinePath =  generateNewSegs(linePathSegs, 4, 4); //`M 10 10 L 30 10 M 20 20 L 40 20`;
 
 setTimeout(() => {
     path.setAttribute("d", linePath);
