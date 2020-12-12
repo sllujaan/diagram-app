@@ -23,19 +23,29 @@ const initDiagramResizers = (e) => {
 
 
 const getResizers = (g_diag) => {
-    var g_box = g_diag.getBBox();
+    //var g_box = g_diag.getBBox();
     var g_resizer_global = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    
-    //north east resizer---
-    var g_resizer = generateResizer(g_box.x, g_box.y);
-    g_resizer_global.append(g_resizer);
+    var coordinates = null;
+
+    //generate resizers---
+
+    for (let i = 0; i <= 7; i++) {
+        coordinates = getCoordinates(g_diag, getDirectionFromIndex(i));
+        var g_resizer = generateResizer(coordinates.x, coordinates.y);
+        g_resizer_global.append(g_resizer);
+        
+    }
+    // coordinates = getCoordinates(g_diag, "nw");
+    // var g_resizer = generateResizer(coordinates.x, coordinates.y);
+    // g_resizer_global.append(g_resizer);
+
+    // //north resizer---it shoud be at centerd between nw and ne coordinates.
+    // coordinates = getCoordinates(g_diag, "n");
+    // var g_resizer = generateResizer(coordinates.x, coordinates.y);
+    // g_resizer_global.append(g_resizer);
 
     //north east resizer---
-    var g_resizer = generateResizer(g_box.x+g_box.width, g_box.y+g_box.height);
-    g_resizer_global.append(g_resizer);
-
-    //north east resizer---
-    var g_resizer = generateResizer(g_box.x+g_box.width, g_box.y+g_box.height);
+    //var g_resizer = generateResizer(g_box.x+g_box.width, g_box.y+g_box.height);
     g_resizer_global.append(g_resizer);
 
 
@@ -44,9 +54,83 @@ const getResizers = (g_diag) => {
 }
 
 
+const getDirectionFromIndex = (index) => {
+    
+    switch (index) {
+        case 0:
+            return "nw";
+        case 1:
+            return "n";
+        case 2:
+            return "ne";
+        case 3:
+            return "e";
+        case 4:
+            return "se";
+        case 5:
+            return "s";
+        case 6:
+            return "sw";
+        case 7:
+            return "w";
+        default:
+            return "";
+    }
+}
+
+
+const getCoordinates = (g_diag, direction) => {
+    var g_box = g_diag.getBBox();
+    var coordinates = {x: 0, y: 0};
+    
+    switch (direction) {
+        case "nw":
+            coordinates.x = g_box.x - 9;    //becasue image icon size if 18 pixels with and height. Therefore, center is at 18/2 = 9; 
+            coordinates.y = g_box.y - 9;    //becasue image icon size if 18 pixels with and height. Therefore, center is at 18/2 = 9; 
+            return coordinates;
+        case "n":
+            coordinates.x = (g_box.x + (g_box.width / 2)) - 9;
+            coordinates.y = g_box.y - 9;
+            return coordinates;
+        case "ne":
+            coordinates.x = (g_box.x + g_box.width) - 9;
+            coordinates.y = g_box.y - 9;
+            return coordinates;
+        case "e":
+            coordinates.x = (g_box.x + g_box.width) - 9;
+            coordinates.y = (g_box.y + (g_box.height / 2)) - 9;
+            return coordinates;
+        case "se":
+            coordinates.x = (g_box.x + g_box.width) - 9;
+            coordinates.y = (g_box.y + g_box.height) - 9;
+            return coordinates;
+        case "s":
+            coordinates.x = (g_box.x + (g_box.width / 2)) - 9;
+            coordinates.y = g_box.y - 9;
+            return coordinates;
+        case "sw":
+            coordinates.x = (g_box.x + (g_box.width / 2)) - 9;
+            coordinates.y = g_box.y - 9;
+            return coordinates;
+        case "w":
+            coordinates.x = (g_box.x + (g_box.width / 2)) - 9;
+            coordinates.y = g_box.y - 9;
+            return coordinates;
+        default:
+            return coordinates;
+    }
+}
+
+
+
+
 function generateResizer(x, y) {
     var g_resizer = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    var image = `<image x="${x}" y="${y}" width="5" height="5" xlink:href="data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiIHZlcnNpb249IjEuMSI+PGNpcmNsZSBjeD0iOSIgY3k9IjkiIHI9IjUiIHN0cm9rZT0iI2ZmZiIgZmlsbD0iIzI5YjZmMiIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" preserveAspectRatio="none"></image>`;
+    var image = `<image x="${x}" y="${y}" width="18" height="18" xlink:href="data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiIHZlcnNpb249IjEuMSI+PGNpcmNsZSBjeD0iOSIgY3k9IjkiIHI9IjUiIHN0cm9rZT0iI2ZmZiIgZmlsbD0iIzI5YjZmMiIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" preserveAspectRatio="none"></image>`;
     g_resizer.innerHTML = image;
     return g_resizer;
 }
+
+
+
+var sampObj = {x: 376, y: 805, width: 60, height: 80};
