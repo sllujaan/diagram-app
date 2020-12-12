@@ -7,7 +7,15 @@ document.addEventListener("click", e => {
     if(isDiagram(e)) {
         initDiagramResizers(e);
     }
-})
+});
+
+document.addEventListener("mousemove", e => {
+    if(isDiagram(e)) {
+        
+    }
+});
+
+
 
 const isDiagram = (e) => {
     var g_diag = e.target.parentElement;
@@ -30,8 +38,9 @@ const getResizers = (g_diag) => {
     //generate resizers---
 
     for (let i = 0; i <= 7; i++) {
-        coordinates = getCoordinates(g_diag, getDirectionFromIndex(i));
-        var g_resizer = generateResizer(coordinates.x, coordinates.y);
+        var direction = getDirectionFromIndex(i);
+        coordinates = getCoordinates(g_diag, direction.direction);
+        var g_resizer = generateResizer(coordinates.x, coordinates.y, direction.cursor);
         g_resizer_global.append(g_resizer);
         
     }
@@ -55,24 +64,25 @@ const getResizers = (g_diag) => {
 
 
 const getDirectionFromIndex = (index) => {
-    
+    var direction = {direction: "", cursor: ""};
+
     switch (index) {
         case 0:
-            return "nw";
+            return {direction: "nw", cursor: "nw-resize"};
         case 1:
-            return "n";
+            return {direction: "n", cursor: "n-resize"};
         case 2:
-            return "ne";
+            return {direction: "ne", cursor: "ne-resize"}
         case 3:
-            return "e";
+            return {direction: "e", cursor: "e-resize"}
         case 4:
-            return "se";
+            return {direction: "se", cursor: "se-resize"}
         case 5:
-            return "s";
+            return {direction: "s", cursor: "s-resize"}
         case 6:
-            return "sw";
+            return {direction: "sw", cursor: "sw-resize"}
         case 7:
-            return "w";
+            return {direction: "w", cursor: "w-resize"}
         default:
             return "";
     }
@@ -106,15 +116,15 @@ const getCoordinates = (g_diag, direction) => {
             return coordinates;
         case "s":
             coordinates.x = (g_box.x + (g_box.width / 2)) - 9;
-            coordinates.y = g_box.y - 9;
+            coordinates.y = (g_box.y + g_box.height) - 9;
             return coordinates;
         case "sw":
-            coordinates.x = (g_box.x + (g_box.width / 2)) - 9;
-            coordinates.y = g_box.y - 9;
+            coordinates.x = g_box.x - 9;
+            coordinates.y = (g_box.y + g_box.height) - 9;
             return coordinates;
         case "w":
-            coordinates.x = (g_box.x + (g_box.width / 2)) - 9;
-            coordinates.y = g_box.y - 9;
+            coordinates.x = g_box.x - 9;
+            coordinates.y = (g_box.y + (g_box.height / 2)) - 9;
             return coordinates;
         default:
             return coordinates;
@@ -124,8 +134,9 @@ const getCoordinates = (g_diag, direction) => {
 
 
 
-function generateResizer(x, y) {
+function generateResizer(x, y, cursor) {
     var g_resizer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g_resizer.setAttribute("style", `visibility: visible; cursor: ${cursor};`);
     var image = `<image x="${x}" y="${y}" width="18" height="18" xlink:href="data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiIHZlcnNpb249IjEuMSI+PGNpcmNsZSBjeD0iOSIgY3k9IjkiIHI9IjUiIHN0cm9rZT0iI2ZmZiIgZmlsbD0iIzI5YjZmMiIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+" preserveAspectRatio="none"></image>`;
     g_resizer.innerHTML = image;
     return g_resizer;
